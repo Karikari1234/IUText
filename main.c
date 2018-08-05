@@ -3,6 +3,7 @@
 #include <string.h>
 #include "directories.h"
 #include "userlist.h"
+#include "files.h"
 
 int main()
 {
@@ -11,4 +12,5 @@ int main()
     gets(username);
     directories(username);
     userlist(username);
+    files();
 }
