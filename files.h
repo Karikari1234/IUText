@@ -1,4 +1,4 @@
-/*TODO: Include check to make sure the same file isn't being created twice. Fixed using append mode maybe?? */
+/* TODO: Include check to make sure the same file isn't being created twice. Fixed using append mode maybe?? */
 
 void files()
 {
@@ -6,19 +6,11 @@ void files()
     f = fopen("userlist.txt", "r");
     char c;
     char userlist[100][100];
-    /*initialise userlist with NULL*/
+    /* Initialise userlist with NULL */
     int i, j;
-    /*for ( i = 0 ; i < 100 ; i++ )
-    {
-        for ( j = 0 ; j < 100 ; j++ )
-        {
-            userlist[i][j] = NULL;
-        }
-    }*/
     int row = 0, column = 0;
     while ( ( c = fgetc(f) ) != EOF )
     {
-        printf("IN WHILE BLOCK\n");
         if ( c == 32 )
         {
             userlist[row][column] = NULL;
@@ -32,14 +24,15 @@ void files()
         }
     }
     fclose(f);
+    /* NULL-ify the end of the userlist array */
     for ( i = row ; i < 100 ; i++ )
     {
         userlist[i][0] = NULL;
     }
-    /* File Creation segment */
+    /* File Creation segment
     for ( i = 0 ; userlist[i][0] != NULL ; i++ )
     {
-        printf("IN FILE CREATION SEGMENT");
+        //printf("IN FILE CREATION SEGMENT");
         char temp[100];
         strcat(temp, userlist[i]);
         printf("Detected username: ");
@@ -52,9 +45,39 @@ void files()
         {
             temp[j] = NULL;
         }
-    }
-    /*for ( i = 0 ; i < 100 ; i++ )
-    {
-        puts(userlist[i]);
     }*/
+    for ( i = 0 ; userlist[i][0] != NULL ; i++ )
+    {
+        char temp[100] = "";
+        strcpy(temp, userlist[i]);
+        printf("Detected username: %s. Going into %s folder.\n", temp, temp);
+        chdir(temp);
+        printf("Successfully entered %s folder.\n", temp);
+        system("pwd");
+        /* FIX THIS SHIT */
+        for ( j = 0 ; userlist[j][0] != NULL ; j++ )
+        {
+            printf("Comparison with ");
+            puts(userlist[j]);
+            char tempfile[100] = "";
+            strcpy(tempfile, userlist[j]);
+            if ( ( strcmp(tempfile, userlist[i]) ) == 0 )
+            {
+                printf("Same username. Skipping.\n");
+                continue;
+            }
+            else
+            {
+                strcat(tempfile, ".txt");
+                FILE *z;
+                z = fopen(tempfile, "a");
+                fclose(z);
+                printf("Creating %s file in %s folder successful\n", tempfile, temp);
+            }
+        }
+        printf("Entering root directory.\n");
+        chdir("..");
+        system("pwd");
+        printf("Exiting loop.\n");
+    }
 }
